@@ -1,62 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var app = document.createElement("div");
+let app = document.createElement("div");
 app.id="app";
 document.body.appendChild(app);
+
 class Square extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            highlight: "none",
-            hovering:false
-        };
-        this.onHover = this.onHover.bind(this);
-        this.onHoverEnd = this.onHoverEnd.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
     }
 
-    onHover(event) {
-        this.setState({hovering  : true});
-    }
-    onHoverEnd(event){
-        this.setState({hovering:false});
-        this.setState({highlight:"none"});
-    }
-    onMouseMove(event){
-        let bounds = event.target.getBoundingClientRect();
-        let x = event.clientX - bounds.left;
-        let y = event.clientY - bounds.top;
-        console.log(y);
-        if (y < 25 && x>10 && x<40) {
-            this.setState({highlight:"highlightTop"});
-        }else if(x<25 && y>10 && y<40){
-            this.setState({highlight:"highlightLeft"});
-        }else if(y>25 && x<40 && x>10){
-            this.setState({highlight:"highlightBottom"});
-        }else if(x>25 && y<40 && y>10){
-            this.setState({highlight:"highlightRight"});
-        }else{
-            this.setState({highlight:"none"});
-        }
-
-    }
     getClass(){
-        console.log(this.state);
-        console.log(this.state.highlight);
-        return 'square '+this.state.highlight;
+        return 'square '+this.props.value;
     }
-
     render() {
         return(
-            <button
+            <span
                 className={this.getClass()}
-                onMouseEnter={this.onHover}
-                onMouseLeave={this.onHoverEnd}
-                onMouseMove={this.onMouseMove}
             >
-                {this.props.value}
-            </button>
+                {this.props.j+", "+this.props.i}
+            </span>
         );
     };
 }
@@ -64,38 +27,95 @@ class Square extends React.Component {
 class Board extends React.Component {
     constructor(props) {
         super(props);
+        this.left = 0;
+        this.top = 0;
+        this.arLength=10;
         this.state = {
-            squares: Array(9).fill(null),
+            arLength:10,
+            squares: Array(this.arLength).fill(Array(this.arLength).fill("none")),
             xIsNext: true,
         };
+        this.onMouseMove = this.onMouseMove.bind(this);
+        console.log(this.state);
     }
-    renderSquare(i) {
+    onMouseMove(event){
+        let bounds = event.target.getBoundingClientRect();
+        let x = event.clientX - bounds.left;
+        let y = event.clientY - bounds.top;
+        let j = Math.floor((event.clientX - this.state.left)/50);
+        let i = Math.floor((event.clientY - this.state.top)/50);
+
+        i = i<0?0:i;
+        j = j<0?0:j;
+
+        const squares = Array(this.arLength).fill(Array(this.arLength).fill("none"));
+        const jsquares = squares[i].slice();
+        if (y > 0 && y < 20 && x>10 && x<40) {
+            jsquares[j]="highlightTop";
+            if(i>0){
+                const j2squares = squares[i-1].slice();
+                j2squares[j]="highlightBottom";
+                squares[i-1]=j2squares;
+            }
+        }else if(x > 0 && x<20 && y>10 && y<40){
+            jsquares[j]="highlightLeft";
+            if(j>0){
+                jsquares[j-1]="highlightRight";
+            }
+        }else if(y < 50 && y>30 && x<40 && x>10) {
+            jsquares[j] = "highlightBottom";
+            if(i<this.arLength-1){
+                const j2squares = squares[i+1].slice();
+                j2squares[j]="highlightTop";
+                squares[i+1]=j2squares;
+            }
+        }else if(x < 50 && x>30 && y<40 && y>10){
+            jsquares[j]="highlightRight";
+            if(j<this.arLength-1){
+                jsquares[j+1]="highlightLeft";
+            }
+        }
+
+        squares[i]=jsquares;
+        this.setState({squares: squares});
+    }
+    renderSquare(i,j) {
         return (
             <Square
-                value={this.state.squares[i]}
+            value={this.state.squares[i][j]}
+            j={j}
+            i={i}
             />
         );
     }
     createTable() {
         let table = [];
-
         // Outer loop to create parent
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < this.state.squares.length; i++) {
             let children = [];
             //Inner loop to create children
-            for (let j = 0; j < 10; j++) {
-                children.push(this.renderSquare(i))
+            for (let j = 0; j < this.state.squares[i].length; j++) {
+                children.push(this.renderSquare(i,j));
             }
             //Create the parent and add the children
-            table.push(<div className="board-row">{children}</div>)
+            table.push(<div className="board-row">{children}</div>);
         }
         return table
     }
+    getSize(bounds){
+        this.setState({left: bounds.left});
+        this.setState({top: bounds.top});
+    }
+    refCallback = element => {
+        if (element) {
+            this.getSize(element.getBoundingClientRect());
+        }
+    };
 
     render() {
-
         return (
-            <div className="GameHolder">
+            <div ref={this.refCallback} className="GameHolder"
+                 onMouseMove={this.onMouseMove}>
                 <div className="status">{status}</div>
                 {this.createTable()}
             </div>
@@ -111,7 +131,7 @@ class Game extends React.Component {
                     <Board />
                 </div>
             </div>
-    );
+        );
     }
 }
 

@@ -18,45 +18,46 @@ ol, ul {
     margin-bottom: 0px;
 }
 .square {
+    box-sizing:border-box;
     background: #ccc;
     border: 1px solid #666;
     float: left;
-    font-size: 3em;
+    font-size: 0.3em;
     font-weight: bold;
-    line-height: 34px;
+    line-height: 50px;
     height: 50px;
     width:  50px;
     text-align: center;
 }
-
-.highlightTop{
-    border-top: 2px solid red;
-    margin-top: -1px;
-    height: 51px;
-    box-shadow: inset 0px 7px 3px -4px red;
-}
-.highlightBottom{
-    border-bottom: 2px solid red;
-    margin-bottom: -1px;
-    height: 51px;
-    box-shadow: inset 0px -7px 3px -4px red;
-}
-.highlightLeft{
-    border-left: 2px solid red;
-    margin-left: -1px;
-    width: 51px;
-    box-shadow: inset 7px 0px 3px -4px red;
-}
-.highlightRight{
-    border-right: 2px solid red;
-    margin-right: -1px;
-    width: 51px;
-    box-shadow: inset -7px 0px 3px -4px red;
-}
-
 .square:focus {
     outline: none;
 }
+
+.highlightTop{
+    border-top: 1px solid red;
+    /*margin-top: -1px;*/
+    /*height: 51px;*/
+    box-shadow: inset 0px 5px 3px -4px red;
+}
+.highlightBottom{
+    border-bottom: 1px solid red;
+    /*margin-bottom: -1px;*/
+    /*height: 51px;*/
+    box-shadow: inset 0px -5px 3px -4px red;
+}
+.highlightLeft{
+    border-left: 1px solid red;
+    /*margin-left: -1px;*/
+    /*width: 51px;*/
+    box-shadow: inset 5px 0px 3px -4px red;
+}
+.highlightRight{
+    border-right: 1px solid red;
+    /*margin-right: -1px;*/
+    /*width: 51px;*/
+    box-shadow: inset -5px 0px 3px -4px red;
+}
+
 #app{
     height:100%;
 }

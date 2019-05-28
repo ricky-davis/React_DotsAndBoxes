@@ -16,7 +16,9 @@
     "webpack-cli": "^3.3.2",
     "webpack-dev-server": "^3.4.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.4.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --config ./webpack.config.js --mode development"
