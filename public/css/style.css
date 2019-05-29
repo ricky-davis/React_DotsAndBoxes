@@ -3,6 +3,7 @@ html,body {
     margin: 0px;
     height:100%;
     background: #666;
+    cursor:cell;
 }
 
 ol, ul {
@@ -20,42 +21,70 @@ ol, ul {
 .square {
     box-sizing:border-box;
     background: #ccc;
-    border: 1px solid #666;
+    border: 2px solid #bbb;
     float: left;
     font-size: 0.3em;
     font-weight: bold;
     line-height: 50px;
+    user-select: none;
     height: 50px;
     width:  50px;
     text-align: center;
 }
-.square:focus {
-    outline: none;
+.team1Comp{
+    background: #22c !important;
+}
+.team2Comp{
+    background: #c22 !important;
 }
 
-.highlightTop{
-    border-top: 1px solid red;
-    /*margin-top: -1px;*/
-    /*height: 51px;*/
-    box-shadow: inset 0px 5px 3px -4px red;
+
+.highlightRed{
+    background-color:#f99;
 }
-.highlightBottom{
-    border-bottom: 1px solid red;
-    /*margin-bottom: -1px;*/
-    /*height: 51px;*/
-    box-shadow: inset 0px -5px 3px -4px red;
+.highlightBlue{
+    background-color:#99f;
 }
-.highlightLeft{
-    border-left: 1px solid red;
-    /*margin-left: -1px;*/
-    /*width: 51px;*/
-    box-shadow: inset 5px 0px 3px -4px red;
+
+.highlightTopRed{
+    border-top: 2px solid red;
 }
-.highlightRight{
-    border-right: 1px solid red;
-    /*margin-right: -1px;*/
-    /*width: 51px;*/
-    box-shadow: inset -5px 0px 3px -4px red;
+.highlightBottomRed{
+    border-bottom: 2px solid red;
+}
+.highlightLeftRed{
+    border-left: 2px solid red;
+}
+.highlightRightRed{
+    border-right: 2px solid red;
+}
+
+
+.highlightTopBlue{
+    border-top: 2px solid blue;
+}
+.highlightBottomBlue{
+    border-bottom: 2px solid blue;
+}
+.highlightLeftBlue{
+    border-left: 2px solid blue;
+}
+.highlightRightBlue{
+    border-right: 2px solid blue;
+}
+
+
+.topSel{
+    border-top: 2px solid black;
+}
+.bottomSel{
+    border-bottom: 2px solid black;
+}
+.leftSel{
+    border-left: 2px solid black;
+}
+.rightSel{
+    border-right: 2px solid black;
 }
 
 #app{
